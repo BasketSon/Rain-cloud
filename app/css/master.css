@@ -1,0 +1,9 @@
+body {
+  padding: 10vh;
+  margin: 0;
+}
+
+.canvas {
+  background-color: lightblue;
+  min-height: 80vh;
+}
