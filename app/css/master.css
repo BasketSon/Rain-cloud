@@ -1,9 +1,29 @@
 body {
   padding: 10vh;
   margin: 0;
+  overflow: hidden;
+}
+
+.screen {
+  position: relative;
+  background: linear-gradient(#f2f6fc, #95a3b8 35%);
+  height: 80vh;
+  font-size: 14px;
+}
+
+.cloud {
+  position: absolute;
+  z-index: 0;
+  width: 300px;
+  top: 50px;
+  right: 20%;
+  min-height: 200px;
+  background: URL("../img/cloud.png") no-repeat 0 0;
+  background-size: contain;
 }
 
 .canvas {
-  background-color: lightblue;
-  min-height: 80vh;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
 }
