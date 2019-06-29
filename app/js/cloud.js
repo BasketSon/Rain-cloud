@@ -76,8 +76,6 @@
     var onMouseLeave = function () {
       cloud.removeEventListener('mousemove', onMouseMove);
       cloud.removeEventListener('mouseup', onMouseUp);
-      cloud.removeEventListener('touchmove', onMouseMove);
-      cloud.removeEventListener('touchend', onMouseUp);
     };
 
     cloud.addEventListener('mousemove', onMouseMove);
@@ -85,7 +83,6 @@
     cloud.addEventListener('mouseup', onMouseUp);
     cloud.addEventListener('touchend', onMouseUp);
     cloud.addEventListener('mouseleave', onMouseLeave);
-    cloud.addEventListener('touchleave', onMouseLeave);
   };
 
   cloud.addEventListener('mousedown', onMouseDown);
