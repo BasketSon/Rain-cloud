@@ -4,7 +4,8 @@
   var cloud = document.querySelector('.cloud');
   var screen = document.querySelector('.screen');
 
-  cloud.addEventListener('mousedown', function (evt) {
+
+  var onMouseDown = function (evt) {
     evt.preventDefault();
 
     var StartCoords = function (x, y) {
@@ -48,17 +49,7 @@
         }
       };
 
-      PositionStyle.prototype.setX = function () {
-      };
-
-      PositionStyle.prototype.setY = function () {
-      };
-
       PositionStyle.call(cloud, cloudCoords.shiftX, cloudCoords.shiftY, 0, 0, screen.offsetWidth, screen.offsetHeight);
-
-      // cloud.style.left = (cloud.offsetLeft + cloudCoords.shiftX) + 'px';
-      // cloud.style.top = (cloud.offsetTop + cloudCoords.shiftY) + 'px';
-
     };
 
     var onMouseUp = function (upEvt) {
@@ -75,6 +66,8 @@
 
     cloud.addEventListener('mousemove', onMouseMove);
     cloud.addEventListener('mouseup', onMouseUp);
-    cloud.addEventListener('mouseleave', onMouseLeave)
-  });
+    cloud.addEventListener('mouseleave', onMouseLeave);
+  };
+
+  cloud.addEventListener('mousedown', onMouseDown);
 })();
