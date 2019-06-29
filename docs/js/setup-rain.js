@@ -12,9 +12,11 @@
   var windowResizeHandler = window.debounce(function () {
     ScreenSize.call(canvas, screen.offsetWidth, screen.offsetHeight);
     window.setupRain();
-    console.log(cloud.offsetLeft, canvas.width)
-    if (cloud.offsetLeft > canvas.width) {
+    if (cloud.offsetLeft + cloud.offsetWidth / 2 > canvas.width) {
       cloud.style.left = canvas.width - cloud.offsetWidth / 2 + 'px';
+    }
+    if (cloud.offsetTop + cloud.offsetHeight / 2 > canvas.height) {
+      cloud.style.top = canvas.height - cloud.offsetHeight / 2 + 'px';
     }
   }, WINDOW_RESIZE_TIMEOUT);
 
@@ -32,7 +34,7 @@
       drop.update();
     });
 
-    requestAnimationFrame(renderFrame.bind(null, ctx, raindrops))
+    requestAnimationFrame(renderFrame.bind(null, ctx, raindrops));
   };
 
   var Raindrop = function () {
