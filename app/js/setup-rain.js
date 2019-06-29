@@ -80,19 +80,32 @@
     return Math.floor(3 * (left + Math.random() * (right - left))) / 3;
   };
 
-  var Cucumber = function () {
+  var Watermelon = function () {
     Raindrop.call(this);
   };
 
-  Cucumber.prototype = Object.create(Raindrop.prototype);
+  Watermelon.prototype = Object.create(Raindrop.prototype);
 
-  Cucumber.prototype.render = function (ctx) {
-    ctx.strokeStyle = 'blue';
+  Watermelon.prototype.render = function (ctx) {
+    ctx.fillStyle = '#095919';
     ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.lineTo(this.x - this.size, this.y + this.size);
-    ctx.closePath();
+    ctx.ellipse(this.x, this.y, this.size * 3, this.size * 2, this.angle, 0, Math.PI * 2, false);
     ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+  };
+
+  Watermelon.prototype.update = function () {
+    Raindrop.prototype.update.call(this);
+    this.angle += 0.02;
+  };
+
+  Watermelon.prototype._reset = function () {
+    Raindrop.prototype._reset.call(this);
+    this.size = getRandomValue(10, 15);
+    this.velocity = 0.2 * (this.size - 15);
+    this.hvelocity = this.size * 1.5;
+    this.angle = getRandomValue(0, Math.PI * 2);
   };
 
   window.setupRain = function () {
@@ -102,8 +115,8 @@
 
     var raindrops = new Array(DROPS).fill('').map(function () {
       return new Raindrop();
-    }).concat(new Array(DROPS * 0.3).fill('').map(function () {
-      return new Cucumber();
+    }).concat(new Array(DROPS * 0.02).fill('').map(function () {
+      return new Watermelon();
     }));
 
     renderFrame(ctx, raindrops)
