@@ -12,9 +12,11 @@
   var windowResizeHandler = window.debounce(function () {
     ScreenSize.call(canvas, screen.offsetWidth, screen.offsetHeight);
     window.setupRain();
-    console.log(cloud.offsetLeft, canvas.width)
-    if (cloud.offsetLeft > canvas.width) {
+    if (cloud.offsetLeft + cloud.offsetWidth / 2 > canvas.width) {
       cloud.style.left = canvas.width - cloud.offsetWidth / 2 + 'px';
+    }
+    if (cloud.offsetTop + cloud.offsetHeight / 2 > canvas.height) {
+      cloud.style.top = canvas.height - cloud.offsetHeight / 2 + 'px';
     }
   }, WINDOW_RESIZE_TIMEOUT);
 
@@ -32,7 +34,7 @@
       drop.update();
     });
 
-    requestAnimationFrame(renderFrame.bind(null, ctx, raindrops))
+    requestAnimationFrame(renderFrame.bind(null, ctx, raindrops));
   };
 
   var Raindrop = function () {
@@ -78,6 +80,34 @@
     return Math.floor(3 * (left + Math.random() * (right - left))) / 3;
   };
 
+  var Watermelon = function () {
+    Raindrop.call(this);
+  };
+
+  Watermelon.prototype = Object.create(Raindrop.prototype);
+
+  Watermelon.prototype.render = function (ctx) {
+    ctx.fillStyle = '#095919';
+    ctx.beginPath();
+    ctx.ellipse(this.x, this.y, this.size * 3, this.size * 2, this.angle, 0, Math.PI * 2, false);
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+  };
+
+  Watermelon.prototype.update = function () {
+    Raindrop.prototype.update.call(this);
+    this.angle += 0.02;
+  };
+
+  Watermelon.prototype._reset = function () {
+    Raindrop.prototype._reset.call(this);
+    this.size = getRandomValue(10, 15);
+    this.velocity = 0.2 * (this.size - 15);
+    this.hvelocity = this.size * 1.5;
+    this.angle = getRandomValue(0, Math.PI * 2);
+  };
+
   window.setupRain = function () {
     var DROPS = 200;
     ScreenSize.call(canvas, screen.offsetWidth, screen.offsetHeight);
@@ -85,7 +115,9 @@
 
     var raindrops = new Array(DROPS).fill('').map(function () {
       return new Raindrop();
-    });
+    }).concat(new Array(DROPS * 0.02).fill('').map(function () {
+      return new Watermelon();
+    }));
 
     renderFrame(ctx, raindrops)
 

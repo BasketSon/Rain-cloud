@@ -4,14 +4,23 @@
   var cloud = document.querySelector('.cloud');
   var screen = document.querySelector('.screen');
 
-  cloud.addEventListener('mousedown', function (evt) {
+  var CoordsHandler = function (event) {
+    if ((event.clientX) && (event.clientY)) {
+      this.X = event.clientX;
+      this.Y = event.clientY;
+    } else if (event.targetTouches) {
+      this.X = event.targetTouches[0].clientX;
+      this.Y = event.targetTouches[0].clientY;
+    }
+  };
+
+  var onMouseDown = function (evt) {
     evt.preventDefault();
 
     var StartCoords = function (x, y) {
       this.x = x;
       this.y = y;
     };
-
     StartCoords.prototype.setCoords = function (x, y) {
       this.shiftX = x - this.x;
       this.shiftY = y - this.y;
@@ -19,12 +28,16 @@
       this.y = y;
     };
 
-    var cloudCoords = new StartCoords(evt.clientX, evt.clientY);
+    var ClientStartCoords = new CoordsHandler(evt); // Задаем координаты пользовательского события в зависимости от устройства.
+
+    var cloudCoords = new StartCoords(ClientStartCoords.X, ClientStartCoords.Y);
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      cloudCoords.setCoords(moveEvt.clientX, moveEvt.clientY);
+      var ClientMoveCoords = new CoordsHandler(moveEvt);
+
+      cloudCoords.setCoords(ClientMoveCoords.X, ClientMoveCoords.Y);
 
       var PositionStyle = function (x, y, minX, minY, maxX, maxY) {
         this.style.left = (this.offsetLeft + x) + 'px';
@@ -48,24 +61,16 @@
         }
       };
 
-      PositionStyle.prototype.setX = function () {
-      };
-
-      PositionStyle.prototype.setY = function () {
-      };
-
       PositionStyle.call(cloud, cloudCoords.shiftX, cloudCoords.shiftY, 0, 0, screen.offsetWidth, screen.offsetHeight);
-
-      // cloud.style.left = (cloud.offsetLeft + cloudCoords.shiftX) + 'px';
-      // cloud.style.top = (cloud.offsetTop + cloudCoords.shiftY) + 'px';
-
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
       cloud.removeEventListener('mousemove', onMouseMove);
+      cloud.removeEventListener('touchmove', onMouseMove);
       cloud.removeEventListener('mouseup', onMouseUp);
+      cloud.removeEventListener('touchend', onMouseUp);
     };
 
     var onMouseLeave = function () {
@@ -74,7 +79,12 @@
     };
 
     cloud.addEventListener('mousemove', onMouseMove);
+    cloud.addEventListener('touchmove', onMouseMove);
     cloud.addEventListener('mouseup', onMouseUp);
-    cloud.addEventListener('mouseleave', onMouseLeave)
-  });
+    cloud.addEventListener('touchend', onMouseUp);
+    cloud.addEventListener('mouseleave', onMouseLeave);
+  };
+
+  cloud.addEventListener('mousedown', onMouseDown);
+  cloud.addEventListener('touchstart', onMouseDown);
 })();
