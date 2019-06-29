@@ -80,6 +80,21 @@
     return Math.floor(3 * (left + Math.random() * (right - left))) / 3;
   };
 
+  var Cucumber = function () {
+    Raindrop.call(this);
+  };
+
+  Cucumber.prototype = Object.create(Raindrop.prototype);
+
+  Cucumber.prototype.render = function (ctx) {
+    ctx.strokeStyle = 'blue';
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x - this.size, this.y + this.size);
+    ctx.closePath();
+    ctx.stroke();
+  };
+
   window.setupRain = function () {
     var DROPS = 200;
     ScreenSize.call(canvas, screen.offsetWidth, screen.offsetHeight);
@@ -87,7 +102,9 @@
 
     var raindrops = new Array(DROPS).fill('').map(function () {
       return new Raindrop();
-    });
+    }).concat(new Array(DROPS * 0.3).fill('').map(function () {
+      return new Cucumber();
+    }));
 
     renderFrame(ctx, raindrops)
 
