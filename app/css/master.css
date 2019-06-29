@@ -20,6 +20,7 @@ body {
   min-height: 200px;
   background: URL("../img/cloud.png") no-repeat 0 0;
   background-size: contain;
+  filter: grayscale(0.4);
 }
 
 .canvas {
