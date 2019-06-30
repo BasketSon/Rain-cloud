@@ -98,6 +98,9 @@
   Watermelon.prototype.update = function () {
     Raindrop.prototype.update.call(this);
     this.angle += 0.02;
+    this.velocity += -0.05;
+    this.hvelocity += -0.4;
+    // screen.textContent = this.hvelocity;
   };
 
   Watermelon.prototype._reset = function () {
@@ -115,11 +118,11 @@
 
     var raindrops = new Array(DROPS).fill('').map(function () {
       return new Raindrop();
-    }).concat(new Array(DROPS * 0.02).fill('').map(function () {
+    }).concat(new Array(DROPS * 0.03).fill('').map(function () {
       return new Watermelon();
     }));
 
-    renderFrame(ctx, raindrops)
+    renderFrame(ctx, raindrops);
 
   };
   window.setupRain();
