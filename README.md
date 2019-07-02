@@ -1,4 +1,4 @@
 # Rain-cloud
-JS-canvas-animation<b>
-DHTML<b>
+JS-canvas-animation<br>
+DHTML<br>
 https://basketson.github.io/Rain-cloud/
