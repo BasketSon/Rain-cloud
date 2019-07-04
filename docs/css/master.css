@@ -1,5 +1,5 @@
 body {
-  padding: 10vh;
+  padding: 9vh;
   margin: 0;
   overflow: hidden;
 }
@@ -7,7 +7,7 @@ body {
 .screen {
   position: relative;
   background: linear-gradient(#f2f6fc, #95a3b8 35%);
-  height: 80vh;
+  height: 82vh;
   font-size: 14px;
 }
 
